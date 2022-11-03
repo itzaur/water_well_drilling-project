@@ -1,5 +1,11 @@
 :root {
-  --text: #222;
-}
+  --clr-black: hsl(0, 0%, 0%);
+  --clr-dark: hsl(232, 13%, 22%);
+  --clr-medium: hsl(208, 60%, 30%);
+  --clr-light: hsl(0, 0%, 100%);
+  --clr-accent: hsl(43, 100%, 50%);
 
-$bg: peachpuff;
+  --fs-big: clamp(2vw, 15vw, 17rem);
+  --fs-medium: clamp(2vw, 10vw, 12rem);
+  --fs-small: clamp(2vw, 6vw, 8rem);
+}

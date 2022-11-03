@@ -39,6 +39,13 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|webp)/i,
         type: "asset/resource",
       },
+      {
+        test: /\.(eot|woff|woff2|ttf|otf)$/,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/[name].[ext]",
+        },
+      },
     ],
   },
 

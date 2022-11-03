@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "IgraSans";
+  src: url(../fonts/IgraSans.otf);
+}
+
+.fs-big {
+  font-size: var(--fs-big);
+}
+
+.fs-medium {
+  font-size: var(--fs-medium);
+}
+
+.fs-small {
+  font-size: var(--fs-small);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}

@@ -1,0 +1,122 @@
+@use "mixins";
+
+main {
+  display: grid;
+  grid-template-areas:
+    ". button ."
+    ". content .";
+  grid-template-columns: minmax(0, 1fr) minmax(0, calc(100% - 10vw)) minmax(
+      0,
+      1fr
+    );
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+}
+
+.frame--close,
+.content--close {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.frame {
+  grid-area: button;
+  grid-row: 1;
+  justify-self: center;
+
+  padding: 1rem;
+
+  // font-size: 5vw;
+}
+
+.content {
+  @include mixins.flex(column, flex-start, center);
+  position: relative;
+
+  grid-area: content;
+  grid-row: 2;
+  grid-column: 1 / -1;
+
+  width: min(100% - 2rem, 100% - 10vw);
+
+  margin-inline: auto;
+  padding: 0 2vw;
+
+  color: var(--clr-light);
+
+  &__title {
+    --gap: 6vw;
+    @include mixins.flex(column, center, center);
+
+    position: relative;
+    // -webkit-text-stroke-width: 5px;
+    line-height: 1;
+
+    @include mixins.respond-to("1024->") {
+      --gap: 5rem;
+    }
+
+    // &:not(span) {
+    //   //   -webkit-text-stroke-width: 0.01ex;
+    // }
+
+    &-down {
+      //   margin-top: -6rem;
+      position: absolute;
+
+      color: var(--clr-accent);
+    }
+
+    &-bg {
+      position: relative;
+      margin-top: 0;
+      padding: 0.5rem 3vw;
+      color: var(--clr-dark);
+      // background-color: var(--clr-accent);
+
+      @include mixins.respond-to("1024->") {
+        margin-top: 4rem;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: calc(100% + 1rem);
+        background: linear-gradient(transparent 20%, var(--clr-accent) 0%);
+        z-index: -1;
+
+        @include mixins.respond-to("1024->") {
+          height: calc(100% + 2rem);
+        }
+      }
+    }
+  }
+}
+
+.menu-wrapper {
+  position: relative;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  // grid-template-columns: 100%;
+  // grid-template-rows: 100vh;
+  // grid-area: 1 / 1 / 1 / 1;
+
+  &--open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.overlay {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  fill: var(--clr-black);
+  pointer-events: none;
+  z-index: 999;
+}

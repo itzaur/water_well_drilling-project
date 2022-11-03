@@ -4,17 +4,91 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <title>Water Well Drilling Project</title>
   </head>
   <body>
     <main>
-      <h1>Water Well Drilling Project</h1>
-      <div class="hero"></div>
-      <div><img src="images/2_..jpg" alt="image" /></div>
-      <h2>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium,
-        et.
-      </h2>
+      <div class="frame">
+        <div class="frame__button">
+          <button class="button-menu" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 8 8">
+              <path d="M2,3.5 L2,3 5,5 5,5.5" fill="var(--clr-accent)"></path>
+              <path d="M2,4.5 L2,4 5,6 5,6.5" fill="var(--clr-accent)"></path>
+              <path d="M2,5.5 L2,5 5,7 5,7.5" fill="var(--clr-accent)"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="content">
+        <!-- <div><h1 class="content__title uppercase fs-big">Бурение</h1></div>
+        <div><h2 class="content__title-down fs-medium">скважин</h2></div>
+        <div><h3 class="content__title-bg lowercase fs-small">на воду</h3></div> -->
+        <div>
+          <h1 class="content__title">
+            <span class="content__title-main uppercase fs-big">Бурение</span>
+            <span class="content__title-down uppercase fs-medium">скважин</span>
+            <span class="content__title-bg fs-small">на воду</span>
+          </h1>
+        </div>
+        <!-- <div class="hero"></div> -->
+        <!-- <div><img src="images/2_..jpg" alt="image" /></div> -->
+        <!-- <h2>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium,
+          et.
+        </h2> -->
+      </div>
+      <div class="menu-wrapper">
+        <div class="title">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, fugiat.
+        </div>
+        <nav class="menu">
+          <ul>
+            <li class="menu__item"><a href="">lorem</a></li>
+            <li class="menu__item"><a href="">lorem</a></li>
+            <li class="menu__item"><a href="">lorem</a></li>
+          </ul>
+        </nav>
+        <button class="button-close" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 8 8">
+            <path d="M2,3.5 L2,3 5,5 5,5.5" fill="var(--clr-accent)"></path>
+            <path d="M2,4.5 L2,4 5,6 5,6.5" fill="var(--clr-accent)"></path>
+            <path d="M2,5.5 L2,5 5,7 5,7.5" fill="var(--clr-accent)"></path>
+          </svg>
+        </button>
+      </div>
+
+      <svg
+        class="overlay"
+        width="100%"
+        height="100%"
+        viewbox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path
+          class="overlay__path"
+          d="M 0 100 V 100 Q 50 100 100 100 V 100 z"
+        ></path>
+      </svg>
     </main>
+
+    <!-- <script>
+      (function () {
+        const headElement = document.head;
+        const styleElement = document.createElement("style");
+        styleElement.setAttribute("debug-css", "");
+        styleElement.innerText = "* { outline: 1px solid lightgreen; }";
+
+        const debugElement = headElement.querySelector("[debug-css]");
+        if (debugElement) return debugElement.remove();
+
+        headElement.append(styleElement);
+      })();
+    </script> -->
   </body>
 </html>
