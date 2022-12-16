@@ -6,10 +6,20 @@ html {
 }
 
 body {
-  background-color: var(--clr-dark);
+  background: linear-gradient(
+    180deg,
+    var(--clr-dark) 0%,
+    var(--clr-medium) 140%
+  );
   color: var(--text);
   font-size: 2.4rem;
   font-family: "IgraSans", sans-serif;
+
+  // overflow: hidden;
+
+  @include mixins.respond-to("568->") {
+    overflow: hidden;
+  }
 }
 
 // main {

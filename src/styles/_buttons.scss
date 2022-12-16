@@ -1,6 +1,9 @@
+@use "mixins";
+
 .button-menu,
 .button-close {
-  width: 6.5rem;
+  width: 4rem;
+  // height: 4rem;
   aspect-ratio: 1;
 
   border: 0;
@@ -8,4 +11,35 @@
 
   //   border-radius: 50%;
   background-color: transparent;
+
+  & svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.button-close {
+  grid-area: btn;
+}
+
+.services__title {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: currentColor;
+  text-transform: uppercase;
+
+  &::after {
+    @include mixins.abs-center;
+    content: "\2192";
+
+    top: 32%;
+    left: 100%;
+
+    font-size: 3rem;
+
+    margin-left: 3rem;
+    color: var(--clr-medium);
+  }
 }
