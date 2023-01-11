@@ -11,6 +11,8 @@
 
   text-align: center;
 
+  // outline: 2px solid blue;
+
   overflow: hidden;
 
   &__title {
@@ -80,7 +82,7 @@
       grid-column: 2;
       grid-row: 1;
 
-      background-image: url("../images/5.jpg");
+      background-image: url("../static/images/5.jpg");
 
       @include mixins.respond-to("320->") {
         background-position: top -10vh left;
@@ -95,7 +97,7 @@
       grid-column: 3;
       grid-row: 2;
 
-      background-image: url("../images/3_.png");
+      background-image: url("../static/images/3_.png");
 
       rotate: 90deg;
     }
@@ -104,7 +106,7 @@
       grid-column: 2;
       grid-row: 3;
 
-      background-image: url("../images/2_.jpg");
+      background-image: url("../static/images/2_.jpg");
 
       rotate: 180deg;
 
@@ -117,7 +119,7 @@
       grid-column: 1;
       grid-row: 2;
 
-      background-image: url("../images/1_.jpg");
+      background-image: url("../static/images/1_.jpg");
 
       rotate: -90deg;
 

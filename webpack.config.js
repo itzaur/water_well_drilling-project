@@ -2,6 +2,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 let mode = "development";
 // let target = "web";
@@ -13,10 +14,16 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
   mode: mode,
+  devtool: "source-map",
   //   target: target,
+  entry: {
+    main: "./src/index.js",
+  },
+
   output: {
     path: path.resolve(__dirname, "dist"),
-    assetModuleFilename: "images/[name].[ext][query]",
+    filename: "[name].bundle.js",
+    // assetModuleFilename: "images/[name].[ext][query]",
   },
 
   module: {
@@ -38,15 +45,28 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg|webp)/i,
         type: "asset/resource",
+        generator: {
+          filename: "assets/images/[hash][ext]",
+          // filename: "images/[name].[ext]",
+        },
       },
       {
         test: /\.(eot|woff|woff2|ttf|otf)$/,
         type: "asset/resource",
         generator: {
-          filename: "fonts/[name].[ext]",
+          // filename: "fonts/[name].[ext]",
+          filename: "assets/fonts/[hash][ext]",
         },
       },
     ],
+  },
+
+  devServer: {
+    static: "./dist",
+    hot: true,
+    devMiddleware: {
+      writeToDisk: true,
+    },
   },
 
   plugins: [
@@ -55,14 +75,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: path.resolve(__dirname, "./src/static") }],
+    }),
   ],
-
-  devtool: "source-map",
-  devServer: {
-    static: "./dist",
-    devMiddleware: {
-      writeToDisk: true,
-    },
-    // hot: true,
-  },
 };

@@ -1,13 +1,13 @@
 import "./styles/index.scss";
 
 //ANCHOR Webpack import all images
-function importAll(r) {
-  return r.keys().map(r);
-}
+// function importAll(r) {
+//   return r.keys().map(r);
+// }
 
-const images = importAll(
-  require.context("../src/images", false, /\.(png|jpe?g|gif|svg|webp)$/)
-);
+// const images = importAll(
+//   require.context("../src/images", false, /\.(png|jpe?g|gif|svg|webp)$/)
+// );
 
 const frame = document.querySelector(".slider");
 const content = document.querySelector(".content");
