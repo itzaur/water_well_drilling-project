@@ -58,6 +58,10 @@ module.exports = {
           filename: "assets/fonts/[hash][ext]",
         },
       },
+      {
+        test: /\.(glsl|vs|fs|vert|frag)$/i,
+        type: "asset/source",
+      },
     ],
   },
 

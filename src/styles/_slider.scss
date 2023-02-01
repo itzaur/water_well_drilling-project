@@ -22,12 +22,28 @@
 }
 
 .slider {
-  height: 20rem;
+  height: 45vh;
+  position: relative;
+  aspect-ratio: 1;
   grid-row: 2;
   grid-column: 2 / -2;
+  overflow: hidden;
+  border-radius: 10% 10% 0% 0% / 10% 10% 0% 0%;
+  outline: 2px red solid;
+  transition: all 0.5s;
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
   @include mixins.respond-to("568->") {
-    height: 45vh;
+    // width: 70rem;
+    // height: 45vh;
+    // min-width: 80rem;
+
+    border-radius: 50% 50% 0 0 / 100% 100% 0% 0%;
   }
 
   &__list {
