@@ -17,7 +17,7 @@ const overlayPath = document.querySelector(".overlay__path");
 const slider = document.querySelector(".slider");
 
 //Test
-const closeMenuBtns = document.querySelectorAll(".slider__link");
+// const closeMenuBtns = document.querySelectorAll(".slider__link");
 
 ////
 
@@ -58,6 +58,9 @@ const imagesToPreload = picturesArray
   .concat(picturesArray.map((item) => item.imgDisplacementSrc))
   .filter((el) => el !== "");
 
+let cssAspectRatioX = null;
+let cssAspectRatioY = null;
+
 /**
  * Three.js part
  */
@@ -80,6 +83,7 @@ export default class Sketch {
     this.delta = 16;
 
     this.resize = () => this.onResize();
+    this.mousemove = (e) => this.onMousemove(e);
   }
 
   init() {
@@ -91,6 +95,7 @@ export default class Sketch {
     this.createSpheres();
     this.createRenderer();
     this.createControls();
+    this.createParticles();
 
     this.renderer.setAnimationLoop(() => {
       this.addListeners();
@@ -129,9 +134,22 @@ export default class Sketch {
       1000
     );
 
-    this.camera.position.set(0, 0, this.scene.id === 17 ? 200 : 4);
+    const sliderCameraPositionZ = 220;
+    const helicoidCameraPositionZ = 2.4;
+
+    this.camera.position.set(
+      0,
+      0,
+      this.scene.id === 4 ? helicoidCameraPositionZ : sliderCameraPositionZ
+    );
+
     // this.camera.position.set(0, 0, 4);
     this.camera.lookAt(new THREE.Vector3());
+
+    // let vFOV = THREE.MathUtils.degToRad(this.camera.fov);
+    // let h = 2 * Math.tan(vFOV / 2) * this.camera.position.z;
+    // let w = h * this.camera.aspect;
+    // console.log(w);
   }
 
   createLoader() {
@@ -142,6 +160,9 @@ export default class Sketch {
     this.texture4 = this.textureLoader.load(`${imagesToPreload[3]}`);
     this.texture5 = this.textureLoader.load(`${imagesToPreload[4]}`);
     this.texture6 = this.textureLoader.load(`${imagesToPreload[5]}`);
+    this.textureBg = this.textureLoader.load(
+      "https://images.pexels.com/photos/3894157/pexels-photo-3894157.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
 
     this.textures = [
       this.texture1,
@@ -188,6 +209,7 @@ export default class Sketch {
     });
 
     this.container.appendChild(this.renderer.domElement);
+    this.renderer.domElement.classList.add("slider__link");
 
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -264,7 +286,7 @@ export default class Sketch {
 
     // material = new THREE.MeshNormalMaterial({ side: 2 });
 
-    const geometry = new ParametricGeometry(Helicoid, 100, 100);
+    const geometry = new ParametricGeometry(Helicoid, 200, 200);
 
     this.helicoid = new THREE.Mesh(geometry, material);
 
@@ -290,10 +312,10 @@ export default class Sketch {
   }
 
   createMesh() {
-    this.planeGeoetry = new THREE.PlaneGeometry(this.width, this.height, 1, 1);
+    this.planeGeometry = new THREE.PlaneGeometry(this.width, this.height, 1, 1);
 
     this.planeMaterial = new THREE.ShaderMaterial({
-      side: 2,
+      // side: 2,
       transparent: true,
       // wireframe: true,
       vertexShader: require("./static/shaders/slider.vertex.glsl"),
@@ -305,28 +327,61 @@ export default class Sketch {
         uvRate1: { value: new THREE.Vector2(1, 1) },
         uAccel: { value: new THREE.Vector2(0.5, 2) },
         uTexture1: {
-          value: this.texture2,
+          value: this.texture4,
         },
         uTexture2: {
-          value: this.texture3,
+          value: this.texture1,
         },
       },
     });
 
-    this.plane = new THREE.Mesh(this.planeGeoetry, this.planeMaterial);
+    this.plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
 
     this.scene.add(this.plane);
 
     // this.camera.position.z = 600;
     // this.plane.position.z = 1;
-    // let dist = this.camera.position.z - this.plane.position.z;
+    // let dist = this.camera.position.z / 260 - this.plane.position.z;
 
     // let height = 1;
-    // this.camera.fov = 5000;
-    // // this.camera.fov = 200;
-    // if (this.width / this.height > 1) {
-    // this.plane.scale.x = this.plane.scale.y = 2.05;
-    // }
+    // this.camera.fov = 2 * (180 / Math.PI) * Math.atan(height / (2 * dist));
+    // this.camera.position.z = 240;
+
+    this.checkMobile();
+    this.plane.scale.set(this.isMobile ? 1 : 1, this.isMobile ? 1 : 2, 0);
+  }
+
+  createParticles() {
+    this.particlesGeometry = new THREE.BufferGeometry();
+    const count = 5000;
+    const positions = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i += 3) {
+      // const i3 = i * 3;
+      positions[i + 0] = (Math.random() - 0.5) * 10;
+      positions[i + 1] = (Math.random() - 0.5) * 20;
+      positions[i + 2] = Math.random() - 0.5;
+    }
+
+    this.particlesGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(positions, 3)
+    );
+
+    this.particlesMaterial = new THREE.PointsMaterial({
+      size: 0.01,
+      sizeAttenuation: true,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+
+    this.points = new THREE.Points(
+      this.particlesGeometry,
+      this.particlesMaterial
+    );
+
+    this.scene.add(this.points);
   }
 
   animateSlider() {
@@ -407,13 +462,15 @@ export default class Sketch {
       const theta1 = Math.PI * elapsedTime * 0.32;
       const theta2 = Math.PI * elapsedTime * 0.32 + Math.PI;
 
-      this.ball1.position.x = Math.sin(theta1) * 0.6 + (this.isMobile ? 0 : 3);
+      this.ball1.position.x =
+        Math.sin(theta1) * 0.6 + (this.isMobile ? 0 : 2, 5);
       this.ball1.position.z = Math.cos(theta1) * 0.6;
 
-      this.ball2.position.x = Math.sin(theta2) * 0.6 + (this.isMobile ? 0 : 3);
+      this.ball2.position.x =
+        Math.sin(theta2) * 0.6 + (this.isMobile ? 0 : 2, 5);
       this.ball2.position.z = Math.cos(theta2) * 0.6;
 
-      this.helicoid.position.x = this.isMobile ? 0 : 3;
+      this.helicoid.position.x = this.isMobile ? 0 : 1.6;
     }
   }
 
@@ -422,7 +479,7 @@ export default class Sketch {
   }
 
   checkMobile() {
-    this.isMobile = window.innerWidth < 767;
+    this.isMobile = window.innerWidth < 568;
   }
 
   onResize() {
@@ -453,22 +510,45 @@ export default class Sketch {
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+    // let dist = this.camera.position.z / 260 - this.plane.position.z;
+
+    // let height = 1;
+    // this.camera.fov = 2 * (180 / Math.PI) * Math.atan(height / (2 * dist));
+
+    // this.plane.scale.x = this.plane.scale.y;
+
+    if (this.plane) {
+      cssAspectRatioX = +getComputedStyle(document.querySelector(".slider"))
+        .aspectRatio[0];
+      cssAspectRatioY = +getComputedStyle(
+        document.querySelector(".slider")
+      ).aspectRatio.slice(-1);
+
+      this.isMobile
+        ? this.plane.scale.set(cssAspectRatioY * 0.5, cssAspectRatioX, 0)
+        : this.plane.scale.set(cssAspectRatioY, cssAspectRatioX, 0);
+    }
     // if (this.plane) {
-    //   let dist =
-    //     this.camera.position.z / this.camera.position.z - this.plane.position.z;
-
-    //   let height = 1;
-    //   this.camera.fov = 2 * (180 / Math.PI) * Math.atan(height / (2 * dist));
-
-    //   this.plane.scale.x = this.plane.scale.y =
-    //     (1.05 * this.width) / this.height;
+    //   this.plane.scale.set(this.isMobile ? 1 : 2, this.isMobile ? 1 : 1, 0);
+    //   console.log(this.plane.scale);
     // }
-
     this.checkMobile();
+  }
+
+  onMousemove(e) {
+    const x = (e.clientX / this.width) * 2 - 1;
+    const y = -((e.clientY / this.height) * 2 - 1);
+
+    gsap.to(this.camera.position, {
+      x: () => x * 0.1,
+      y: () => y * 0.32,
+      duration: 0.5,
+    });
   }
 
   addListeners() {
     window.addEventListener("resize", this.resize, { passive: true });
+    window.addEventListener("mousemove", this.mousemove, { passive: true });
   }
 }
 
@@ -478,6 +558,7 @@ app.init();
 const slid = new Sketch(".slider");
 slid.initSlider();
 
+const sliderTrigger = document.querySelectorAll(".slider__link");
 let isAnimating = false;
 
 const openMenuAnimation = () => {
@@ -606,7 +687,7 @@ const closeMenuAnimation = () => {
       duration: 0.8,
     })
     .to(
-      [title.main, title.down, title.bg, title.services, slider],
+      [title.main, title.down, title.bg, title.services],
       {
         y: 0,
         duration: 1.2,
@@ -614,6 +695,15 @@ const closeMenuAnimation = () => {
         stagger: -0.05,
       },
       ">-=1.2"
+    )
+    .to(
+      slider,
+      {
+        y: 0,
+        duration: 0.5,
+        ease: "none",
+      },
+      "<-0.2"
     )
     .to(
       menuItems,
@@ -630,8 +720,7 @@ const closeMenuAnimation = () => {
 
 // openMenuBtn.addEventListener("click", openMenuAnimation);
 closeMenuBtn.addEventListener("click", closeMenuAnimation);
-
-closeMenuBtns.forEach((btn) => {
+sliderTrigger.forEach((btn) => {
   btn.addEventListener("click", openMenuAnimation);
 });
 

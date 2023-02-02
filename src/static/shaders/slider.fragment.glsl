@@ -61,5 +61,5 @@ void main() {
     
     gl_FragColor = rgba;
     // float roundC = roundCorners(vec2(1.0, 1.0), vUv1, 0.024);
-    // gl_FragColor.a *= roundC;
+   
 }
