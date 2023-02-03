@@ -95,7 +95,6 @@ export default class Sketch {
     this.createSpheres();
     this.createRenderer();
     this.createControls();
-    this.createParticles();
 
     this.renderer.setAnimationLoop(() => {
       this.addListeners();
@@ -204,7 +203,7 @@ export default class Sketch {
   createRenderer() {
     this.renderer = new THREE.WebGLRenderer({
       // canvas: this.canvas,
-      alpha: true,
+      // alpha: true,
       antialias: true,
     });
 
@@ -349,39 +348,6 @@ export default class Sketch {
 
     this.checkMobile();
     this.plane.scale.set(this.isMobile ? 1 : 1, this.isMobile ? 1 : 2, 0);
-  }
-
-  createParticles() {
-    this.particlesGeometry = new THREE.BufferGeometry();
-    const count = 5000;
-    const positions = new Float32Array(count * 3);
-
-    for (let i = 0; i < count; i += 3) {
-      // const i3 = i * 3;
-      positions[i + 0] = (Math.random() - 0.5) * 10;
-      positions[i + 1] = (Math.random() - 0.5) * 20;
-      positions[i + 2] = Math.random() - 0.5;
-    }
-
-    this.particlesGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions, 3)
-    );
-
-    this.particlesMaterial = new THREE.PointsMaterial({
-      size: 0.01,
-      sizeAttenuation: true,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
-
-    this.points = new THREE.Points(
-      this.particlesGeometry,
-      this.particlesMaterial
-    );
-
-    this.scene.add(this.points);
   }
 
   animateSlider() {
