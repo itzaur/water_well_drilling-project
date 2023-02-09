@@ -4,7 +4,7 @@ uniform float uTime;
 uniform float uProgress;
 uniform sampler2D uTexture1;
 uniform sampler2D uTexture2;
-uniform sampler2D uTexture3;
+
 uniform vec2 uPixels;
 uniform vec2 uAccel;
 

@@ -267,7 +267,7 @@ main {
 .overlay {
   grid-column: 1 / -1;
   grid-row: 1 / -1;
-  fill: var(--clr-black);
+  fill: var(--clr-accent);
   pointer-events: none;
   z-index: 999;
 }
