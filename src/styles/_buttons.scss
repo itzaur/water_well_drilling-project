@@ -20,6 +20,7 @@
 
 .button-close {
   grid-area: btn;
+  margin: 2rem;
 }
 
 .services__title {
@@ -30,16 +31,26 @@
   color: currentColor;
   text-transform: uppercase;
 
-  &::after {
-    @include mixins.abs-center;
-    content: "\2192";
+  &-name {
+    position: relative;
+    overflow: hidden;
 
-    top: 32%;
-    left: 100%;
-
-    font-size: 3rem;
-
-    margin-left: 3rem;
-    color: var(--clr-medium);
+    &-inner {
+      display: inline-block;
+      // will-change: transform;
+    }
   }
+
+  // &::after {
+  //   @include mixins.abs-center;
+  //   content: "\2192";
+
+  //   top: 32%;
+  //   left: 100%;
+
+  //   font-size: 3rem;
+
+  //   margin-left: 3rem;
+  //   color: var(--clr-medium);
+  // }
 }

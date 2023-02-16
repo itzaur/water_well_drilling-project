@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: minmax(1rem, 1fr) repeat(3, 1fr) minmax(1rem, 1fr);
   grid-template-rows: auto auto;
+  gap: 4rem;
 
   justify-items: center;
 
@@ -16,8 +17,38 @@
   overflow: hidden;
 
   &__title {
-    grid-column: 3;
+    position: relative;
+    // width: 100%;
+    grid-column: 1 / -1;
     grid-row: 1;
+
+    overflow: hidden;
+
+    & > * {
+      transition: translate 0.4s ease-in-out;
+    }
+
+    & .title-down {
+      position: absolute;
+      left: 50%;
+      translate: 0 100%;
+      transform: translateX(-50%);
+      // will-change: transform;
+      // opacity: 1;
+      // transition: translate 0.4s;
+    }
+
+    &:hover .title-up {
+      translate: 0 -100%;
+    }
+
+    &:hover .title-down {
+      translate: 0 -100%;
+    }
+
+    // &.done .title-up {
+    //   opacity: 0.2;
+    // }
   }
 }
 
