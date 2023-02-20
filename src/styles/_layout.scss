@@ -160,6 +160,8 @@ main {
   margin-inline: auto;
   margin-top: auto;
 
+  transition: filter 0.5s ease;
+
   &--main {
     height: auto;
   }
@@ -169,25 +171,13 @@ main {
     aspect-ratio: 3 / 2;
   }
 
-  &:hover img {
+  &:hover.gallery__item-img {
     filter: grayscale(1) brightness(40%);
   }
 
-  & img {
-    // display: block;
-
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-
-    border-radius: 5rem;
-
-    cursor: pointer;
-
-    filter: grayscale(30%) brightness(35%);
+  &__item {
     animation: insetBack 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-
-    transition: filter 0.6s ease-in-out;
+    cursor: pointer;
 
     @include mixins.respond-to("568->") {
       grid-area: 1 / 1 / -1 / -1;
@@ -251,8 +241,17 @@ main {
       }
     }
 
-    &:hover {
-      filter: grayscale(0%);
+    &-img {
+      width: 100%;
+      object-fit: cover;
+      transition: filter 0.5s ease-in-out;
+      border-radius: 5rem;
+
+      filter: grayscale(30%) brightness(35%);
+
+      &:hover {
+        filter: grayscale(0%);
+      }
     }
 
     &.active {
@@ -260,12 +259,16 @@ main {
       // clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 
       // clip-path: circle(100% at 50% 50%);
-      filter: grayscale(0%) blur(4px);
-      backdrop-filter: blur(10px);
-      background-color: rgba(255, 255, 255, 0.5);
-      transition: filter 1s ease;
+
       z-index: 10;
       animation: inset 0.5s ease forwards;
+
+      & > * {
+        filter: grayscale(0%) blur(4px);
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: filter 1s ease;
+      }
     }
 
     &.not-active {

@@ -270,7 +270,7 @@ title.services.addEventListener("mouseenter", () => {
 
 //ANCHOR Gallery
 const gallery = document.querySelector(".gallery");
-const galleryItem = document.querySelectorAll(".gallery__img");
+// const galleryItem = document.querySelectorAll(".gallery__item");
 
 let isActive = false;
 
@@ -288,11 +288,11 @@ for (let i = 0; i < textIds.length; i++) {
 }
 
 const galleryText = gsap.utils.toArray(".append");
-const galleryImages = gsap.utils.toArray(".gallery img");
+const galleryItems = gsap.utils.toArray(".gallery__item");
 const animations = galleryText.map(createAnimation);
 
-galleryImages.forEach((img) => {
-  img.addEventListener("click", toggleAnimations);
+galleryItems.forEach((item) => {
+  item.addEventListener("click", toggleAnimations);
 });
 
 function toggleAnimations(event) {
@@ -304,7 +304,7 @@ function toggleAnimations(event) {
     animation(target);
   });
 
-  const index = event.currentTarget.dataset.num;
+  const index = target.children[0].dataset.num;
   galleryText[index].classList.toggle("active");
 
   // event.currentTarget.clicked = !event.currentTarget.clicked;
@@ -334,7 +334,8 @@ function createAnimation(element) {
   const text = element.dataset.num;
 
   return function (target) {
-    const reversed = target.dataset.num !== text ? true : !animation.reversed();
+    const reversed =
+      target.children[0].dataset.num !== text ? true : !animation.reversed();
     animation.reversed(reversed);
   };
 }
