@@ -1,6 +1,7 @@
 import "./styles/index.scss";
 import Sketch from "./Sketch";
-import { gsap } from "gsap";
+import { gsap, random } from "gsap";
+import { SplitText } from "./SplitText";
 import resources from "./resources.js";
 
 const frame = document.querySelector(".slider");
@@ -272,105 +273,104 @@ const gallery = document.querySelector(".gallery");
 const galleryItem = document.querySelectorAll(".gallery__img");
 
 let isActive = false;
-// let appended = false;
 
-gallery.addEventListener("click", (e) => {
-  isActive = !isActive;
-  const clicked = e.target.closest(".gallery__img");
-  // if (clicked == null) return;
+const galleryTextBox = document.querySelector(".text-content");
+const textIds = resources.filter((text) => text.title);
+let newElement;
 
-  // if (!e.target.classList.contains("active")) {
-  //   galleryItem.forEach((item) => {
-  //     item.classList.remove("active");
-  //     console.log("remove active");
-  //   });
+for (let i = 0; i < textIds.length; i++) {
+  newElement = document.createElement("p");
+  newElement.textContent = `${textIds[i].title}`;
+  newElement.classList.add(`append`);
+  newElement.setAttribute("data-num", i);
+  // newElement.classList.add(`append-${i}`);
+  galleryTextBox.appendChild(newElement);
+}
 
-  // }
+const galleryText = gsap.utils.toArray(".append");
+const galleryImages = gsap.utils.toArray(".gallery img");
+const animations = galleryText.map(createAnimation);
 
-  // galleryItem.forEach((item) => item.classList.remove("active"));
-
-  if (isActive) {
-    clicked.classList.add("active");
-    console.log(clicked.dataset.num);
-    console.log(resources[clicked.dataset.num].id);
-
-    // let newElement = null;
-
-    // console.log(title.menu.children[0]);
-
-    // if (title.menu.children[0].classList.contains("append")) {
-    //   title.menu.removeChild(newElement);
-    // }
-
-    // if (!appended) {
-    //   newElement = document.createElement("p");
-    //   newElement.innerHTML = `${resources[clicked.dataset.num].title}`;
-    //   newElement.classList.add("append");
-    //   title.menu.appendChild(newElement);
-    //   appended = true;
-    // }
-  } else {
-    clicked.classList.remove("active");
-    // clicked.classList.add("not-active");
-    // setTimeout(() => {
-    //   clicked.classList.remove("not-active");
-    // }, 950);
-  }
+galleryImages.forEach((img) => {
+  img.addEventListener("click", toggleAnimations);
 });
 
-// window.addEventListener("click", (e) => {
-//   if (!e.target.closest(".gallery")) {
-//     galleryItem.forEach((item) => {
-//       item.classList.remove("active");
-//       console.log("click");
-//     });
-//   }
-// });
+function toggleAnimations(event) {
+  let target = this;
 
-// const gallery = gsap.utils.toArray(".gallery");
-// const galleryItem = gsap.utils.toArray(".gallery img");
-// const galleryToggles = galleryItem.map(createAnimation);
+  target.classList.toggle("active");
 
-// galleryItem.forEach((item) => {
-//   item.addEventListener("click", () => toggleGallery(item));
-// });
-// function toggleGallery(clickedItem) {
-//   galleryToggles.forEach((toggleFn) => toggleFn(clickedItem));
-// }
+  animations.forEach(function (animation, i) {
+    animation(target);
+  });
 
-// // galleryItem.forEach((item) => {
-// //   item.addEventListener("click", () => toggleGallery(item));
-// // });
+  const index = event.currentTarget.dataset.num;
+  galleryText[index].classList.toggle("active");
 
-// // function toggleGallery(clickedItem) {
-// //   galleryToggles.forEach((toggleFn) => toggleFn(clickedItem));
-// // }
+  // event.currentTarget.clicked = !event.currentTarget.clicked;
+  // if (event.currentTarget.clicked) {
+  //   console.log("e.currentTarget clicked");
+  // } else {
+  //   console.log("e.currentTarget not clicked");
+  // }
+}
 
-// function createAnimation(element) {
-//   // let item = document.querySelector("img");
+function createAnimation(element) {
+  const splitTextElement = new SplitText(element, { type: "words" });
+  const numWords = splitTextElement.words.length;
 
-//   let animation = gsap
-//     .timeline({ paused: true })
-//     .to(element, {
-//       "clip-path": "circle(100% at 50% 70%)",
-//       "grid-area": "1 / 1 / -1 / -1",
-//       duration: 2,
-//       ease: "power4",
-//     })
-//     .reverse();
+  const animation = gsap.timeline().reverse();
 
-//   return function (clickedItem) {
-//     if (clickedItem === element) {
-//       console.log(clickedItem, element);
-//       animation.reversed(!animation.reversed());
-//       element.classList.add("active");
+  animation.from(splitTextElement.words, 1, {
+    x: "random(-500, 500)",
+    y: "random(-200, 200)",
+    rotationY: 180,
+    rotationX: "random(-120, 180)",
+    transformOrigin: "50% 75% 200",
+    ease: "slow(0.7, 0.7, false)",
+    autoAlpha: 0,
+  });
+
+  const text = element.dataset.num;
+
+  return function (target) {
+    const reversed = target.dataset.num !== text ? true : !animation.reversed();
+    animation.reversed(reversed);
+  };
+}
+
+// galleryImages.forEach((img) => {
+//   img.addEventListener("click", (e) => {
+//     const index = e.currentTarget.dataset.num;
+//     e.currentTarget.clicked = !e.currentTarget.clicked;
+//     if (e.currentTarget.clicked) {
+//       console.log("e.currentTarget clicked");
+//       moveText(e);
 //     } else {
-//       console.log(clickedItem, element);
-//       animation.reverse();
-//       element.classList.remove("active");
+//       console.log("e.currentTarget not clicked");
+//       reverseText(e);
 //     }
-//   };
-// }
+//   });
+// });
+
+// gallery.addEventListener("click", (e) => {
+//   const clicked = e.target.closest(".gallery__img");
+//   if (!clicked) return;
+
+//   isActive = !isActive;
+
+//   // if (isActive) {
+//   //   // clicked.classList.add("active");
+//   //   // galleryText[clicked.dataset.num].classList.add("active");
+//   // } else {
+//   //   // clicked.classList.remove("active");
+//   //   // galleryText[clicked.dataset.num].classList.remove("active");
+//   //   // clicked.classList.add("not-active");
+//   //   // setTimeout(() => {
+//   //   //   clicked.classList.remove("not-active");
+//   //   // }, 950);
+//   // }
+// });
 
 /*
  * Slider

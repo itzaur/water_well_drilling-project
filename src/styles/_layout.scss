@@ -150,6 +150,7 @@ main {
 }
 
 .gallery {
+  position: relative;
   display: grid;
   grid-row: 2;
   width: min(90rem, calc(100% - 1rem));
@@ -173,7 +174,7 @@ main {
   }
 
   & img {
-    display: block;
+    // display: block;
 
     object-fit: cover;
     width: 100%;
@@ -182,10 +183,11 @@ main {
     border-radius: 5rem;
 
     cursor: pointer;
+
     filter: grayscale(30%) brightness(35%);
     animation: insetBack 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 
-    transition: filter 0.6s;
+    transition: filter 0.6s ease-in-out;
 
     @include mixins.respond-to("568->") {
       grid-area: 1 / 1 / -1 / -1;
@@ -258,9 +260,12 @@ main {
       // clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 
       // clip-path: circle(100% at 50% 50%);
+      filter: grayscale(0%) blur(4px);
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.5);
+      transition: filter 1s ease;
       z-index: 10;
       animation: inset 0.5s ease forwards;
-      // transition: clip-path 1s ease-in;
     }
 
     &.not-active {
@@ -271,6 +276,48 @@ main {
 
 .menu-wrapper--open .gallery {
   height: auto;
+}
+
+.text-content {
+  z-index: 10;
+}
+
+.text-content,
+.append {
+  position: absolute;
+  width: 100%;
+  color: var(--clr-light);
+}
+
+.append {
+  // position: relative;
+  padding: 2rem;
+
+  perspective: 300px;
+  transform: translate3d(0, 0, 0) perspective(600px);
+  transform-style: preserve-3d;
+
+  text-shadow: 2px 2px 4px var(--clr-black), 2px 2px 4px var(--clr-accent),
+    4px 4px 5px var(--clr-dark);
+
+  pointer-events: none;
+
+  // visibility: hidden;
+  // opacity: 0;
+
+  // -webkit-transform: translateZ(0);
+  // transform: translateZ(0);
+
+  &.active {
+    pointer-events: auto;
+    z-index: 10;
+    // visibility: visible;
+    // opacity: 1;
+  }
+
+  // & div {
+  //   // position: absolute;
+  // }
 }
 
 .overlay {

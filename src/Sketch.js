@@ -56,6 +56,7 @@ export default class Sketch {
 
     this.render();
     this.addDebugPanel();
+    // this.addGalleryText();
   }
 
   async initSlider() {
@@ -476,6 +477,83 @@ export default class Sketch {
 
     window.requestAnimationFrame(this.render.bind(this));
   }
+
+  //   addGalleryText() {
+  //     const gallery = document.querySelector(".gallery");
+  //     const galleryTextBox = document.querySelector(".text-content");
+
+  //     const textIds = this.resources.filter((text) => text.title);
+  //     let newElement;
+
+  //     for (let i = 0; i < textIds.length; i++) {
+  //       newElement = document.createElement("p");
+  //       newElement.textContent = `${textIds[i].title}`;
+  //       newElement.classList.add(`append`);
+  //       newElement.classList.add(`append-${i}`);
+  //       galleryTextBox.appendChild(newElement);
+  //     }
+  //     let isActive = false;
+  //     const targets = gsap.utils.toArray(".gallery img");
+  //     const text = gsap.utils.toArray(".append");
+  //     let timeline;
+  //     timeline = gsap.timeline({ paused: true });
+
+  //     console.log(e);
+  //     timeline.from(text[0], {
+  //       xPercent: -100,
+  //       yPercent: -100,
+  //       duration: 0.5,
+  //       ease: "expo",
+  //       //   yoyo: true,
+
+  //       onComplete: () => {
+  //         console.log(text);
+  //         text[0].classList.add("active");
+  //       },
+  //     });
+
+  //     // targets.forEach((obj, i) => {
+  //     //   obj.index = i;
+  //     //   obj.addEventListener("click", animateText);
+  //     // });
+
+  //     // const tl = gsap.timeline({ paused: true });
+
+  //     gallery.addEventListener("click", (e) => {
+  //       const clicked = e.target.closest(".gallery__img");
+  //       if (!clicked) return;
+
+  //       // console.log(resources[clicked.dataset.num].id);
+
+  //       isActive = !isActive;
+
+  //       // newElement.innerHTML = `${resources[clicked.dataset.num].title}`;
+  //       // newElement.classList.add(`append-${resources[clicked.dataset.num].id}`);
+
+  //       if (isActive) {
+  //         clicked.classList.add("active");
+  //         timeline.play();
+
+  //         // if (!appended) {
+  //         //   // newElement = document.createElement("p");
+  //         //   // newElement.innerHTML = `${resources[clicked.dataset.num].title}`;
+
+  //         //   // gallery.appendChild(newElement);
+  //         //   appended = true;
+  //         //   arr.push(newElement);
+  //         // }
+  //       } else {
+  //         clicked.classList.remove("active");
+
+  //         timeline.reverse();
+
+  //         // clicked.classList.add("not-active");
+  //         // setTimeout(() => {
+  //         //   clicked.classList.remove("not-active");
+  //         // }, 950);
+  //       }
+  //     });
+  //   }
 
   addDebugPanel() {
     this.gui = new dat.GUI();
