@@ -3,6 +3,9 @@
 
 html {
   font-size: 62.5%;
+  hyphens: auto;
+  word-break: normal;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -16,6 +19,9 @@ body {
   font-family: "IgraSans", sans-serif;
 
   // overflow: hidden;
+  &.stop-transitions * {
+    transition: none !important;
+  }
 
   @include mixins.respond-to("568->") {
     overflow: hidden;

@@ -7,9 +7,11 @@ import resources from "./resources.js";
 const frame = document.querySelector(".slider");
 const content = document.querySelector(".content");
 const menuWrapper = document.querySelector(".menu-wrapper");
-const menuItems = document.querySelectorAll(".menu__item");
+const contactWrapper = document.querySelector(".contact-wrapper");
+// const menuItems = document.querySelectorAll(".menu__item");
+const galleryTitleItems = document.querySelectorAll(".gallery__item-title h3");
 const openMenuBtn = document.querySelector(".button-menu");
-const closeMenuBtn = document.querySelector(".button-close");
+const closeMenuBtn = document.querySelectorAll(".button-close");
 const overlayPath = document.querySelector(".overlay__path");
 
 //Slider
@@ -65,7 +67,7 @@ new Sketch(".slider").initSlider();
 const sliderTrigger = document.querySelectorAll(".slider__link");
 let isAnimating = false;
 
-const openMenuAnimation = () => {
+const openMenuAnimation = (e) => {
   if (isAnimating) return;
   isAnimating = true;
 
@@ -93,7 +95,12 @@ const openMenuAnimation = () => {
       ease: "power2",
       duration: 0.3,
       onComplete: () => {
-        menuWrapper.classList.add("menu-wrapper--open");
+        if (e.target.dataset.title === "services") {
+          menuWrapper.classList.add("menu-wrapper--open");
+        } else {
+          contactWrapper.classList.add("contact-wrapper--open");
+          // new Sketch("#helicoid").initHelicoid();
+        }
         content.classList.add("content--close");
         frame.classList.add("frame--close");
       },
@@ -108,7 +115,7 @@ const openMenuAnimation = () => {
       },
       0.2
     )
-    .set(menuItems, {
+    .set(galleryTitleItems, {
       opacity: 0,
     })
     .set(overlayPath, {
@@ -128,20 +135,22 @@ const openMenuAnimation = () => {
       attr: { d: "M 0 0 V 0 Q 50 0 100 0 V 0 z" },
     })
     .to(
-      menuItems,
+      galleryTitleItems,
       {
         y: 0,
+        // x: "auto",
         startAt: { y: 150 },
         opacity: 1,
         stagger: 0.05,
         duration: 1.2,
         ease: "power4",
+        clearProps: "transform",
       },
       ">-=1.2"
     );
 };
 
-const closeMenuAnimation = () => {
+const closeMenuAnimation = (e) => {
   if (isAnimating) return;
   isAnimating = true;
 
@@ -170,6 +179,7 @@ const closeMenuAnimation = () => {
       attr: { d: "M 0 0 V 100 Q 50 100 100 100 V 0 z" },
       onComplete: () => {
         menuWrapper.classList.remove("menu-wrapper--open");
+        contactWrapper.classList.remove("contact-wrapper--open");
         content.classList.remove("content--close");
         frame.classList.remove("frame--close");
       },
@@ -210,7 +220,7 @@ const closeMenuAnimation = () => {
       "<-0.2"
     )
     .to(
-      menuItems,
+      galleryTitleItems,
       {
         y: 200,
         opacity: 0,
@@ -223,7 +233,10 @@ const closeMenuAnimation = () => {
 };
 
 // openMenuBtn.addEventListener("click", openMenuAnimation);
-closeMenuBtn.addEventListener("click", closeMenuAnimation);
+closeMenuBtn.forEach((btn) => {
+  btn.addEventListener("click", closeMenuAnimation);
+});
+
 sliderTrigger.forEach((btn) => {
   btn.addEventListener("click", openMenuAnimation);
 });
@@ -270,7 +283,7 @@ title.services.addEventListener("mouseenter", () => {
 
 //ANCHOR Gallery
 const gallery = document.querySelector(".gallery");
-// const galleryItem = document.querySelectorAll(".gallery__item");
+const galleryItem = document.querySelectorAll(".gallery__item");
 
 let isActive = false;
 
@@ -279,14 +292,14 @@ const textIds = resources.filter((text) => text.title);
 let newElement;
 
 for (let i = 0; i < textIds.length; i++) {
-  newElement = document.createElement("p");
-  newElement.textContent = `${textIds[i].title}`;
+  newElement = document.createElement("div");
+  newElement.innerHTML = `${textIds[i].title}`;
   newElement.classList.add(`append`);
   newElement.setAttribute("data-num", i);
-  // newElement.classList.add(`append-${i}`);
-  galleryTextBox.appendChild(newElement);
+  galleryItem[i].appendChild(newElement);
 }
 
+const gallerySubtitle = document.querySelector(".gallery__item-subtitle");
 const galleryText = gsap.utils.toArray(".append");
 const galleryItems = gsap.utils.toArray(".gallery__item");
 const animations = galleryText.map(createAnimation);
@@ -298,6 +311,15 @@ galleryItems.forEach((item) => {
 function toggleAnimations(event) {
   let target = this;
 
+  // const sibling = target.nextElementSibling;
+  // sibling.classList.toggle("sibling-element");
+
+  const allOtherImages = galleryItems.filter((img) => img !== target);
+  allOtherImages.forEach((img) => {
+    img.classList.remove("active");
+    // const otherSiblings = img.nextElementSibling;
+    // otherSiblings.classList.remove("sibling-element");
+  });
   target.classList.toggle("active");
 
   animations.forEach(function (animation, i) {
@@ -305,30 +327,62 @@ function toggleAnimations(event) {
   });
 
   const index = target.children[0].dataset.num;
+
   galleryText[index].classList.toggle("active");
 
   // event.currentTarget.clicked = !event.currentTarget.clicked;
   // if (event.currentTarget.clicked) {
   //   console.log("e.currentTarget clicked");
+  //   target.classList.add("active");
   // } else {
   //   console.log("e.currentTarget not clicked");
+  //   target.classList.remove("active");
   // }
+
+  // target.scrollIntoView({ behavior: "smooth" });
 }
 
 function createAnimation(element) {
-  const splitTextElement = new SplitText(element, { type: "words" });
-  const numWords = splitTextElement.words.length;
+  // const splitTextElement = new SplitText(element, {
+  //   type: "words",
+  //   wordsClass: "word++",
+  //   wordDelimiter: "\n",
+  //   // reduceWhiteSpace: false,
+  // });
+  // const numWords = splitTextElement.words.length;
 
   const animation = gsap.timeline().reverse();
 
-  animation.from(splitTextElement.words, 1, {
-    x: "random(-500, 500)",
-    y: "random(-200, 200)",
-    rotationY: 180,
-    rotationX: "random(-120, 180)",
-    transformOrigin: "50% 75% 200",
-    ease: "slow(0.7, 0.7, false)",
+  // animation.from(element, 0.8, {
+  //   x: "random(-500, 500)",
+  //   y: "random(-200, 200)",
+  //   rotationY: 180,
+  //   rotationX: "random(-120, 180)",
+  //   transformOrigin: "50% 75% 200",
+  //   ease: "slow(0.7, 0.7, false)",
+  //   autoAlpha: 0,
+  // });
+  // gsap.set(element, {
+  //   transform: "translate3d(0, 0, 0) perspective(600px)",
+  //   transformStyle: "preserve-3d",
+  //   autoAlpha: 1,
+  // });
+
+  animation.from(element.children, 0.6, {
+    // x: "random(-500, 500)",
+    // y: "random(-200, 200)",
+    // rotationY: 180,
+    rotationX: -120,
+    transformOrigin: "top center -150",
+    ease: "power3.out",
     autoAlpha: 0,
+    stagger: 0.1,
+    onStart: () => {
+      animation.timeScale(1);
+    },
+    onComplete: () => {
+      animation.timeScale(2);
+    },
   });
 
   const text = element.dataset.num;
@@ -372,6 +426,27 @@ function createAnimation(element) {
 //   //   // }, 950);
 //   // }
 // });
+
+/*
+ * Stop transition
+ */
+function stopTransitionOnResize() {
+  const classes = document.body.classList;
+  let timer = 0;
+  window.addEventListener("resize", function () {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    } else classes.add("stop-transitions");
+
+    timer = setTimeout(() => {
+      classes.remove("stop-transitions");
+      timer = null;
+    }, 100);
+  });
+}
+
+stopTransitionOnResize();
 
 /*
  * Slider

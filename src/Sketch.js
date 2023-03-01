@@ -74,9 +74,9 @@ export default class Sketch {
     this.render();
   }
 
-  // async initHelicoid() {
+  // initHelicoid() {
   //   this.createScene();
-  //   this.createCamera();
+  //   this.createHelicoidCamera();
   //   this.createLight();
   //   this.createRenderer();
   //   this.createHelicoid();
@@ -84,9 +84,10 @@ export default class Sketch {
   //   this.createLoaders();
   //   this.addListeners();
 
-  //   await this.loadTextures();
+  //   // await this.loadTextures();
 
   //   this.render();
+  //   console.log("helicoid init");
   // }
 
   createScene() {
@@ -105,6 +106,15 @@ export default class Sketch {
     this.camera.position.z = 1;
     this.camera.lookAt(new THREE.Vector3());
   }
+
+  // createHelicoidCamera() {
+  //   this.camera = new THREE.PerspectiveCamera(
+  //     75,
+  //     this.width / this.height,
+  //     0.1,
+  //     1000
+  //   );
+  // }
 
   createLight() {
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 3);
@@ -130,6 +140,7 @@ export default class Sketch {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     this.container.appendChild(this.renderer.domElement);
+    this.renderer.domElement.setAttribute("data-title", "services");
 
     this.renderer.physicallyCorrectLights = true;
     this.renderer.shadowMap.enabled = true;
@@ -254,13 +265,19 @@ export default class Sketch {
         // title.services.innerHTML = `<h4 class="title-up">Услуги</h4>
         //     <h4 class="title-down">Услуги</h4>`;
         title.services_name_inner.innerHTML = `<span class="services__title-name-inner">Услуги</span>`;
+
+        this.renderer.domElement.setAttribute("data-title", "services");
       } else {
         tl.to(this.sliderMaterial.uniforms.uProgress, 1, {
           value: 1,
         });
 
         title.services.classList.add("done");
+
+        this.renderer.domElement.setAttribute("data-title", "contact");
       }
+
+      console.log(this.sliderMaterial.uniforms.uProgress);
     });
   }
 
@@ -336,7 +353,7 @@ export default class Sketch {
 
   //   this.helicoid.castShadow = this.helicoid.receiveShadow = true;
 
-  //   this.camera.position.z = 3;
+  //   this.camera.position.z = 4;
 
   //   this.scene.add(this.helicoid);
   // }
@@ -471,7 +488,7 @@ export default class Sketch {
     //       elapsedTime * 0.2;
     //   }
 
-    //   this.helicoid.position.x = this.isMobile ? 0 : 2.6;
+    //   this.helicoid.position.x = this.isMobile ? 0 : -1;
     //   // this.helicoid.position.z = -1;
     // }
 

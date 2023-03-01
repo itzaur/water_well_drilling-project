@@ -190,7 +190,7 @@ export class SplitText {
         if (element) {
           this.target = element;
           this.#getTextContent();
-          // window.addEventListener("resize", () => resizeFunction(element))
+          // window.addEventListener("resize", () => resizeFunction(element));
         } else {
           this.#logAndThrowError(
             `can't found %c${elementOrSelector}%c in DOM tree!`
