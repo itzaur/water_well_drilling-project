@@ -21,6 +21,8 @@
 .button-close {
   grid-area: btn;
   margin: 2rem;
+
+  z-index: 1;
 }
 
 .services__title {

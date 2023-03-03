@@ -5,11 +5,15 @@ import * as dat from "lil-gui";
 import { gsap } from "gsap";
 import { title } from "./index.js";
 import resources from "./resources.js";
+import Contact from "./Contact";
 
 export default class Sketch {
   constructor(container) {
     this.container = document.querySelector(container);
     this.resources = resources;
+
+    //Contact page
+    this.contact = new Contact("#contact-app");
 
     //Sizes
     this.width = this.container.clientWidth;
@@ -56,7 +60,8 @@ export default class Sketch {
 
     this.render();
     this.addDebugPanel();
-    // this.addGalleryText();
+
+    this.contact.init();
   }
 
   async initSlider() {
@@ -276,8 +281,6 @@ export default class Sketch {
 
         this.renderer.domElement.setAttribute("data-title", "contact");
       }
-
-      console.log(this.sliderMaterial.uniforms.uProgress);
     });
   }
 
@@ -574,6 +577,10 @@ export default class Sketch {
 
   addDebugPanel() {
     this.gui = new dat.GUI();
+    // this.guiContact = new dat.GUI({
+    //   container: document.getElementById("contact-app"),
+    // });
+    // console.log(this.guiContact);
 
     this.gui
       .add(this.uniforms.uCol1, "value")
@@ -625,6 +632,14 @@ export default class Sketch {
       .name("uColor")
       .onChange(() => {
         this.material.needsUpdate = true;
+      });
+
+    this.gui
+      .addColor(this.contact.config, "contactPageTextColor")
+      .onChange(() => {
+        this.contact.material.uniforms.color.value.set(
+          this.contact.config.contactPageTextColor
+        );
       });
   }
 }

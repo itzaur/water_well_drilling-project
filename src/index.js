@@ -1,5 +1,7 @@
 import "./styles/index.scss";
 import Sketch from "./Sketch";
+import Contact from "./Contact";
+// import { Contact } from "./Contact-test";
 import { gsap, random } from "gsap";
 import { SplitText } from "./SplitText";
 import resources from "./resources.js";
@@ -63,6 +65,7 @@ const imagesToPreload = picturesArray
 new Sketch("#background").init();
 new Sketch(".slider").initSlider();
 // new Sketch("#helicoid").initHelicoid();
+// new Contact("#contact-app").init();
 
 const sliderTrigger = document.querySelectorAll(".slider__link");
 let isAnimating = false;
@@ -147,6 +150,17 @@ const openMenuAnimation = (e) => {
         clearProps: "transform",
       },
       ">-=1.2"
+    )
+    .to(
+      "#contact-app canvas",
+      {
+        y: 0,
+        startAt: { y: 150 },
+        opacity: 1,
+        duration: 1.2,
+        ease: "power4",
+      },
+      "< 0"
     );
 };
 
@@ -229,6 +243,16 @@ const closeMenuAnimation = (e) => {
         ease: "power2.in",
       },
       0
+    )
+    .to(
+      "#contact-app canvas",
+      {
+        y: 200,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.in",
+      },
+      "< 0"
     );
 };
 
