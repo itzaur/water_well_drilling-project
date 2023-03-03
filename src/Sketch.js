@@ -10,7 +10,12 @@ import Contact from "./Contact";
 export default class Sketch {
   constructor(container) {
     this.container = document.querySelector(container);
+
+    //Resources
     this.resources = resources;
+
+    //Preloader loading bar
+    this.loadingBarElement = document.querySelector(".loading-bar");
 
     //Contact page
     this.contact = new Contact("#contact-app");
@@ -153,6 +158,14 @@ export default class Sketch {
     this.renderer.outputEncoding = THREE.sRGBEncoding;
   }
 
+  // createOverlay() {
+  //   this.overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1);
+  //   this.overlayMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  //   this.overlay = new THREE.Mesh(this.overlayGeometry, this.overlayMaterial);
+  //   this.scene.add(this.overlay);
+  //   console.log(this.overlay);
+  // }
+
   createBackgroundPlane() {
     this.geometry = new THREE.PlaneGeometry(2, 2);
 
@@ -180,10 +193,20 @@ export default class Sketch {
 
     this.loadingManager.onProgress = (url, loaded, total) => {
       console.log(`Loaded ${loaded} resources out of ${total} -> ${url}`);
+      console.log(loaded / total);
+      const progressRatio = loaded / total;
+
+      this.loadingBarElement.style.scale = `${progressRatio} 1`;
     };
 
     this.loadingManager.onLoad = () => {
       console.log("All resources loaded");
+
+      gsap.delayedCall(0.5, () => {
+        document.querySelector(".preloader-overlay").classList.add("close");
+        this.loadingBarElement.classList.add("ended");
+        this.loadingBarElement.style.scale = "";
+      });
     };
 
     this.textureLoader = new THREE.TextureLoader(this.loadingManager);
