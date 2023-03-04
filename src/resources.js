@@ -64,26 +64,10 @@ export default [
   },
   {
     name: "Texture1",
-    url: "https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDIxXzEwXC8xNjM0NzAyNzA1XzIwMjEtMTAtMjAtMTUtMDUtMDVfZDc2ZTdiODdkZDVlYmQ0ZmQxYTI5MWMyYWQwY2E0NWUuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2NzIsImhlaWdodCI6MzMxLCJmaXQiOiJjb3ZlciJ9fX0=",
+    url: "https://images.pexels.com/photos/220211/pexels-photo-220211.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
   {
     name: "Texture2",
-    url: "https://images.pexels.com/photos/220211/pexels-photo-220211.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    url: "https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDIxXzEwXC8xNjM0NzAyNzA1XzIwMjEtMTAtMjAtMTUtMDUtMDVfZDc2ZTdiODdkZDVlYmQ0ZmQxYTI5MWMyYWQwY2E0NWUuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2NzIsImhlaWdodCI6MzMxLCJmaXQiOiJjb3ZlciJ9fX0=",
   },
-  // sliderImg3: {
-  //   url: "https://images.unsplash.com/photo-1674859659457-3dde5db387c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-  //   loaded: false,
-  // },
-  // sliderImg4: {
-  //   url: "https://images.unsplash.com/photo-1674909073110-5aa68607e693?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
-  //   loaded: false,
-  // },
-  // sliderImg5: {
-  //   url: "https://images.unsplash.com/photo-1668018367039-22526ebf2461?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=739&q=80",
-  //   loaded: false,
-  // },
-  // sliderImg6: {
-  //   url: "https://images.unsplash.com/photo-1674909072480-ad551618b63e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
-  //   loaded: false,
-  // },
 ];

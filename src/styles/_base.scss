@@ -18,7 +18,6 @@ body {
   font-size: 2.4rem;
   font-family: "IgraSans", sans-serif;
 
-  // overflow: hidden;
   &.stop-transitions * {
     transition: none !important;
   }
@@ -28,31 +27,8 @@ body {
   }
 }
 
-// main {
-//   --min: 20ch;
-//   @include mixins.flex(null, center, center);
-//   flex-wrap: wrap;
-
-//   & > * {
-//     // flex: 1 1 var(--min);
-//     flex: max(300px, 100% / 4 + 0.1%);
-//   }
-
-//   h1 {
-//     font-size: 6vw;
-//   }
-// }
-
 button {
   font-size: 1.8rem;
-}
-
-.hero {
-  width: 20rem;
-  height: 40rem;
-  background-image: url("../static/images/1_.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .webgl {

@@ -20,20 +20,20 @@ float tri(float p) {
     return mix(p, 1.0 - p, step(0.5, p)) * 2.0;
 }
 
-float udRoundBox( vec2 p, vec2 b, float r ){
-    return length(max(abs(p)-b+r,0.0))-r;
+float udRoundBox(vec2 p, vec2 b, float r) {
+    return length(max(abs(p) - b + r, 0.0)) - r;
 }
 
 float roundCorners(vec2 planeRes, vec2 uv, float radius) {
     float iRadius = min(planeRes.x, planeRes.y) * radius;
     vec2 halfRes = 0.5 * planeRes.xy;
-    float b = udRoundBox( (uv * planeRes) - halfRes, halfRes, iRadius );
+    float b = udRoundBox((uv * planeRes) - halfRes, halfRes, iRadius);
     return clamp(1.0 - b, 0.0, 1.0);
 }
 
 void main() {
     vec2 uv = gl_FragCoord.xy / uPixels.xy;
-    
+
     // float progress = fract(uProgress);
 
     float delayValue = uProgress * 7.0 - uv.y * 2.0 + uv.x - 2.0;
@@ -52,14 +52,14 @@ void main() {
     vec4 rgba1 = texture2D(uTexture1, mirrored(uv1));
     vec4 rgba2 = texture2D(uTexture2, mirrored(uv2));
 
-    float edge = 0.5 * (uv.y + uv.x);
+    float edge = 0.5 * (uv.y + uv.x) * 0.5;
     float sm = 0.12;
     float str = smoothstep(edge - sm, edge + sm, uProgress);
     delayValue = str;
 
     vec4 rgba = mix(rgba1, rgba2, delayValue);
-    
+
     gl_FragColor = rgba;
     // float roundC = roundCorners(vec2(1.0, 1.0), vUv1, 0.024);
-   
+
 }

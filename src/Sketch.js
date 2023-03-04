@@ -34,7 +34,7 @@ export default class Sketch {
       uProgress: { value: 0 },
       uPixels: { value: new THREE.Vector2(this.width, this.height) },
       uvRate1: { value: new THREE.Vector2(1, 1) },
-      uAccel: { value: new THREE.Vector2(0.5, 2) },
+      uAccel: { value: new THREE.Vector2(1, 0) },
       uScale: { value: new THREE.Vector2(1, 1) },
       uRadius: { value: 2 },
       uLightIntensity: { value: 3 },
@@ -57,10 +57,6 @@ export default class Sketch {
     this.createLoaders();
     this.addListeners();
 
-    // this.createHelicoid();
-    // this.createSliderMesh();
-    // this.animateSlider();
-
     await this.loadTextures();
 
     this.render();
@@ -78,6 +74,7 @@ export default class Sketch {
     this.createClock();
     this.createLoaders();
     this.addListeners();
+    this.checkMobile();
 
     await this.loadTextures();
 
@@ -105,12 +102,6 @@ export default class Sketch {
   }
 
   createCamera() {
-    // this.camera = new THREE.PerspectiveCamera(
-    //   75,
-    //   this.width / this.height,
-    //   0.1,
-    //   1000
-    // );
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
 
     this.camera.position.z = 1;
@@ -158,14 +149,6 @@ export default class Sketch {
     this.renderer.outputEncoding = THREE.sRGBEncoding;
   }
 
-  // createOverlay() {
-  //   this.overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1);
-  //   this.overlayMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  //   this.overlay = new THREE.Mesh(this.overlayGeometry, this.overlayMaterial);
-  //   this.scene.add(this.overlay);
-  //   console.log(this.overlay);
-  // }
-
   createBackgroundPlane() {
     this.geometry = new THREE.PlaneGeometry(2, 2);
 
@@ -193,7 +176,7 @@ export default class Sketch {
 
     this.loadingManager.onProgress = (url, loaded, total) => {
       console.log(`Loaded ${loaded} resources out of ${total} -> ${url}`);
-      console.log(loaded / total);
+
       const progressRatio = loaded / total;
 
       this.loadingBarElement.style.scale = `${progressRatio} 1`;
@@ -259,26 +242,12 @@ export default class Sketch {
 
     this.renderer.domElement.classList.add("slider__link");
     this.scene.add(this.sliderMesh);
-
-    // this.camera.position.z = 3;
-    // this.plane.position.z = 1;
-    // let dist = this.camera.position.z / 260 - this.plane.position.z;
-
-    // let height = 1;
-    // this.camera.fov = 2 * (180 / Math.PI) * Math.atan(height / (2 * dist));
-    // this.camera.position.z = 240;
-
-    // this.checkMobile();
-    // this.sliderMesh.scale.set(this.isMobile ? 1 : 1, this.isMobile ? 1 : 2, 0);
   }
 
   animateSlider() {
     const tl = gsap.timeline();
 
     title.services.addEventListener("click", () => {
-      // title.services.innerHTML = `<h4 class="title-up">Контакты</h4>
-      //       <h4 class="title-down">Контакты</h4>`;
-
       title.services_name_inner.innerHTML = `
         <span class="services__title-name-inner">Контакты</span>
       `;
@@ -290,8 +259,6 @@ export default class Sketch {
 
         title.services.classList.remove("done");
 
-        // title.services.innerHTML = `<h4 class="title-up">Услуги</h4>
-        //     <h4 class="title-down">Услуги</h4>`;
         title.services_name_inner.innerHTML = `<span class="services__title-name-inner">Услуги</span>`;
 
         this.renderer.domElement.setAttribute("data-title", "services");
@@ -471,10 +438,6 @@ export default class Sketch {
     this.uniforms.uMouse.value.x = x * ratio;
     this.uniforms.uMouse.value.y = y;
 
-    // const vpRatio = window.innerWidth / window.innerHeight;
-    // this.uniforms.uMouse.value.x = (e.offsetX / window.innerWidth) * vpRatio;
-    // this.uniforms.uMouse.value.y = 1 - e.offsetY / window.innerHeight;
-
     // if (this.helicoid) {
     //   gsap.to(this.camera.position, {
     //     x: () => x * 0.1,
@@ -483,14 +446,7 @@ export default class Sketch {
     //   });
     // }
 
-    // uniforms.uMouse.value.x =
-    //   (e.pageX - window.innerWidth / 2) / window.innerWidth / ratio;
-    // uniforms.uMouse.value.y =
-    //   ((e.pageY - window.innerHeight / 2) / window.innerHeight) * -1;
-
     this.uniforms.uMousemoved.value = true;
-
-    // e.preventDefault();
   }
 
   createClock() {
@@ -521,89 +477,8 @@ export default class Sketch {
     window.requestAnimationFrame(this.render.bind(this));
   }
 
-  //   addGalleryText() {
-  //     const gallery = document.querySelector(".gallery");
-  //     const galleryTextBox = document.querySelector(".text-content");
-
-  //     const textIds = this.resources.filter((text) => text.title);
-  //     let newElement;
-
-  //     for (let i = 0; i < textIds.length; i++) {
-  //       newElement = document.createElement("p");
-  //       newElement.textContent = `${textIds[i].title}`;
-  //       newElement.classList.add(`append`);
-  //       newElement.classList.add(`append-${i}`);
-  //       galleryTextBox.appendChild(newElement);
-  //     }
-  //     let isActive = false;
-  //     const targets = gsap.utils.toArray(".gallery img");
-  //     const text = gsap.utils.toArray(".append");
-  //     let timeline;
-  //     timeline = gsap.timeline({ paused: true });
-
-  //     console.log(e);
-  //     timeline.from(text[0], {
-  //       xPercent: -100,
-  //       yPercent: -100,
-  //       duration: 0.5,
-  //       ease: "expo",
-  //       //   yoyo: true,
-
-  //       onComplete: () => {
-  //         console.log(text);
-  //         text[0].classList.add("active");
-  //       },
-  //     });
-
-  //     // targets.forEach((obj, i) => {
-  //     //   obj.index = i;
-  //     //   obj.addEventListener("click", animateText);
-  //     // });
-
-  //     // const tl = gsap.timeline({ paused: true });
-
-  //     gallery.addEventListener("click", (e) => {
-  //       const clicked = e.target.closest(".gallery__img");
-  //       if (!clicked) return;
-
-  //       // console.log(resources[clicked.dataset.num].id);
-
-  //       isActive = !isActive;
-
-  //       // newElement.innerHTML = `${resources[clicked.dataset.num].title}`;
-  //       // newElement.classList.add(`append-${resources[clicked.dataset.num].id}`);
-
-  //       if (isActive) {
-  //         clicked.classList.add("active");
-  //         timeline.play();
-
-  //         // if (!appended) {
-  //         //   // newElement = document.createElement("p");
-  //         //   // newElement.innerHTML = `${resources[clicked.dataset.num].title}`;
-
-  //         //   // gallery.appendChild(newElement);
-  //         //   appended = true;
-  //         //   arr.push(newElement);
-  //         // }
-  //       } else {
-  //         clicked.classList.remove("active");
-
-  //         timeline.reverse();
-
-  //         // clicked.classList.add("not-active");
-  //         // setTimeout(() => {
-  //         //   clicked.classList.remove("not-active");
-  //         // }, 950);
-  //       }
-  //     });
-  //   }
-
   addDebugPanel() {
     this.gui = new dat.GUI();
-    // this.guiContact = new dat.GUI({
-    //   container: document.getElementById("contact-app"),
-    // });
-    // console.log(this.guiContact);
 
     this.gui
       .add(this.uniforms.uCol1, "value")

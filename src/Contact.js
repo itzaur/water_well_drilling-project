@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import * as dat from "lil-gui";
 
 export default class Contact {
   constructor(container) {
@@ -408,13 +406,6 @@ export default class Contact {
     this.isMobile = window.innerWidth < 568;
   }
 
-  //   createMesh() {
-  //     this.geometry = new THREE.BoxGeometry(1, 1, 1);
-  //     this.material = new THREE.ShaderMaterial();
-  //     this.mesh = new THREE.Mesh(this.geometry, this.material);
-  //     this.scene.add(this.mesh);
-  //   }
-
   addlisteners() {
     window.addEventListener("resize", this.resize, { passive: true });
     window.addEventListener("mousemove", this.onMousemove.bind(this));
@@ -464,5 +455,3 @@ export default class Contact {
   //     this.config.ease = 0.05;
   //   }
 }
-
-// const contact = new Contact("#contact-app").init();
